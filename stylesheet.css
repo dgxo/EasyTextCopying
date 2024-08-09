@@ -339,6 +339,15 @@ a:active {
 	background-color: var(--slate-700);
 }
 
+button:focus,
+a:focus,
+textarea:focus,
+button:focus-visible,
+a:focus-visible,
+textarea:focus-visible {
+	outline: 2px solid var(--slate-400);
+}
+
 li.script {
 	display: flex;
 	align-items: start;

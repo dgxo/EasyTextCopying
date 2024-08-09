@@ -13,7 +13,7 @@ function saveData() {
 	localStorage.setItem('scripts', scripts.join(separator));
 }
 
-function registerScript(script) {
+function registerScript(script, editing = false) {
 	const editButton = script.querySelector('button.edit');
 	const copyButton = script.querySelector('button.copy');
 	const doneButton = script.querySelector('button.done');
@@ -25,7 +25,11 @@ function registerScript(script) {
 		doneButton.classList.toggle('hidden');
 		editButton.classList.toggle('hidden');
 		copyButton.classList.toggle('hidden');
+		textInput.disabled = !textInput.disabled;
 	}
+
+	// default is not editing
+	if (editing) toggleEditing();
 
 	editButton.addEventListener('click', () => {
 		toggleEditing();
@@ -49,7 +53,7 @@ function registerScript(script) {
 	});
 }
 
-function createScript(content) {
+function createScript(content, editing = false) {
 	if (typeof content !== 'string') {
 		content = '';
 	}
@@ -57,14 +61,16 @@ function createScript(content) {
 	let script = scriptTemplate.content.querySelector('li.script').cloneNode(true);
 	document.querySelector('main ul').append(script);
 	script.querySelector('textarea').value = content;
-	script.querySelector('textarea').focus();
-	registerScript(script);
+	if (editing) script.querySelector('textarea').focus();
+	registerScript(script, editing);
 }
 
 const savedData = localStorage.getItem('scripts');
 if (savedData) {
 	for (const script of localStorage.getItem('scripts').split(separator)) {
-		createScript(script);
+		createScript(script, false);
 	}
 }
-addButton.addEventListener('click', createScript);
+addButton.addEventListener('click', () => {
+	createScript('', true);
+});
