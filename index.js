@@ -61,8 +61,10 @@ function createScript(content) {
 	registerScript(script);
 }
 
-console.log(localStorage.getItem('scripts'));
-for (const script of localStorage.getItem('scripts').split(separator)) {
-	createScript(script);
+const savedData = localStorage.getItem('scripts');
+if (savedData) {
+	for (const script of localStorage.getItem('scripts').split(separator)) {
+		createScript(script);
+	}
 }
 addButton.addEventListener('click', createScript);
