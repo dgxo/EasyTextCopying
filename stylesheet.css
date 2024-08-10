@@ -1,3 +1,10 @@
+@font-face {
+	font-family: 'Inter';
+	src: url('Inter-Variable.ttf');
+	font-style: normal;
+	font-display: swap;
+}
+
 :root {
 	/* Slate */
 	--slate-50: hsl(210 40% 98%);
@@ -289,17 +296,51 @@
 body {
 	background-color: var(--slate-950);
 	color: var(--slate-100);
+	padding: 32px;
+	display: flex;
+	gap: 16px;
+	flex-direction: column;
 }
 
 * {
 	font-family: 'Inter';
 }
 
-main {
-	padding: 8px 32px;
+h1 {
+	margin: 0;
+}
+
+h1 .material-symbols-outlined {
+	font-size: 12px;
+	cursor: pointer;
+}
+
+section {
 	display: flex;
 	gap: 16px;
 	flex-direction: column;
+}
+
+main {
+	display: grid;
+	gap: 16px;
+}
+
+main {
+	grid-template-columns: 0fr;
+	grid-auto-rows: 0fr;
+}
+
+@media (min-width: 825px) {
+	main {
+		grid-template-columns: 0fr 0fr;
+	}
+}
+
+@media (min-width: 1225px) {
+	main {
+		grid-template-columns: 0fr 0fr 0fr;
+	}
 }
 
 ul {
@@ -309,6 +350,7 @@ ul {
 	margin: 0;
 	padding: 0;
 	gap: 8px;
+	width: fit-content;
 }
 
 button,
@@ -327,6 +369,7 @@ a {
 	cursor: pointer;
 	transition: background-color 0.15s ease-in-out;
 	width: fit-content;
+	height: fit-content;
 }
 
 button:hover,
@@ -348,7 +391,7 @@ textarea:focus-visible {
 	outline: 2px solid var(--slate-400);
 }
 
-li.script {
+li.snippet {
 	display: flex;
 	align-items: start;
 	gap: 8px;
@@ -357,9 +400,10 @@ li.script {
 	border-radius: 16px;
 	width: fit-content;
 	position: relative;
+	height: fit-content;
 }
 
-li.script textarea {
+li.snippet textarea {
 	background-color: var(--slate-800);
 	color: var(--slate-100);
 	border-radius: 8px;
@@ -367,21 +411,20 @@ li.script textarea {
 	border: none;
 	padding: 8px;
 	font-size: 14px;
-	height: 100%;
 }
 
-li.script .buttons {
+li.snippet .buttons {
 	display: flex;
 	flex-direction: column;
 	gap: 8px;
 }
 
-li.script button {
+li.snippet button {
 	padding: 8px;
 	background-color: var(--slate-800);
 }
 
-li.script button.copy {
+li.snippet button#copy {
 	position: absolute;
 	top: 8px;
 	left: 8px;
@@ -395,11 +438,11 @@ li.script button.copy {
 	visibility: visible;
 }
 
-li.script button:hover {
+li.snippet button:hover {
 	background-color: var(--slate-700);
 }
 
-li.script button:active {
+li.snippet button:active {
 	background-color: var(--slate-600);
 }
 
@@ -407,13 +450,13 @@ li.script button:active {
 	display: none;
 }
 
-.copied {
+#copied {
 	background-color: var(--slate-900);
 	display: flex;
 	width: fit-content;
 	gap: 8px;
 	margin: 0 auto;
-	position: absolute;
+	position: fixed;
 	top: 16px;
 	left: 50%;
 	transform: translateX(-50%);
@@ -423,7 +466,7 @@ li.script button:active {
 	transition: top 0.2s ease-in-out;
 }
 
-.copied.hidden {
+#copied.hidden {
 	display: flex;
-	top: -48px;
+	top: -40px;
 }
