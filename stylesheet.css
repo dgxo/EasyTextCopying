@@ -464,9 +464,11 @@ li.snippet button:active {
 	padding: 8px 16px;
 	border-radius: 8px;
 	transition: top 0.2s ease-in-out;
+	z-index: 10;
+	box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.4);
 }
 
 #copied.hidden {
 	display: flex;
-	top: -40px;
+	top: -48px;
 }
