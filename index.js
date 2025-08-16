@@ -134,6 +134,10 @@ if (scripts) {
 if (presetName && !snippets[presetName]) {
 	(async () => {
 		const response = await fetch(`/presets/${presetName}`);
+		if (!response.ok) {
+			console.error(`Failed to fetch preset: ${presetName}`);
+			return;
+		}
 		const presetData = await response.json();
 		const section = createSection(presetName);
 
