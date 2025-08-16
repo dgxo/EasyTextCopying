@@ -133,7 +133,7 @@ if (scripts) {
 
 if (presetName && !snippets[presetName]) {
 	(async () => {
-		const response = await fetch(`/presets/${presetName}`);
+		const response = await fetch(`/presets/${presetName}.json`);
 		if (!response.ok) {
 			console.error(`Failed to fetch preset: ${presetName}`);
 			return;
