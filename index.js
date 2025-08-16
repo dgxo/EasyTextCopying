@@ -4,6 +4,7 @@ const main = document.querySelector('main');
 const snippetTemplate = document.querySelector('#snippetTemplate');
 const sectionTemplate = document.querySelector('#sectionTemplate');
 const separator = '||SEP||';
+const presetName = new URLSearchParams(location.search).get('preset');
 
 function saveData() {
 	let snippets = {};
@@ -27,12 +28,18 @@ function saveData() {
 function createSection(name, focus = false) {
 	const section = sectionTemplate.content.querySelector('section').cloneNode(true);
 	const title = section.querySelector('h1 span.section-title');
-	const icon = section.querySelector('h1 .material-symbols-outlined');
+	const editButton = section.querySelector('#edit-section');
+	const deleteButton = section.querySelector('#delete-section');
 	const addButton = section.querySelector('button#add');
 
-	icon.addEventListener('click', () => {
+	editButton.addEventListener('click', () => {
 		title.focus();
 		window.getSelection().selectAllChildren(title);
+	});
+
+	deleteButton.addEventListener('click', () => {
+		section.remove();
+		saveData();
 	});
 
 	title.textContent = name;
@@ -64,10 +71,10 @@ function createSnippet(content, section, focus = false) {
 	textInput.value = content;
 
 	function toggleEditing() {
+		textInput.disabled = !textInput.disabled;
 		doneButton.classList.toggle('hidden');
 		editButton.classList.toggle('hidden');
 		copyButton.classList.toggle('hidden');
-		textInput.disabled = !textInput.disabled;
 	}
 
 	// default is not editing
@@ -108,7 +115,7 @@ if (scripts) {
 	const section = createSection('Old Scripts', true);
 
 	for (const snippet of scripts.split(separator)) {
-		createSnippet(snippet, section, false);
+		createSnippet(snippet, section);
 	}
 
 	saveData();
@@ -119,9 +126,23 @@ if (scripts) {
 		const section = createSection(sectionName);
 
 		for (const snippet of snippets[sectionName]) {
-			createSnippet(snippet, section, false);
+			createSnippet(snippet, section);
 		}
 	}
+}
+
+if (presetName && !snippets[presetName]) {
+	(async () => {
+		const response = await fetch(`/presets/${presetName}`);
+		const presetData = await response.json();
+		const section = createSection(presetName);
+
+		for (const snippet of presetData) {
+			createSnippet(snippet, section);
+		}
+
+		saveData();
+	})();
 }
 
 newSectionButton.addEventListener('click', () => {
